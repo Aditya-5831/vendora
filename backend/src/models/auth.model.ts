@@ -11,4 +11,12 @@ export const authModel = {
     const user = await db.user.findUnique({ where: { email } });
     return user;
   },
+
+  logout: async (refreshToken: string) => {
+    await db.refreshToken.delete({
+      where: {
+        token: refreshToken,
+      },
+    });
+  },
 };
