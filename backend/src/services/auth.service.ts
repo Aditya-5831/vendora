@@ -68,6 +68,16 @@ export const authService = {
     return { user: safeUser, accessToken, refreshToken };
   },
 
+  logout: async (refreshToken: string) => {
+    if (!refreshToken) {
+      throw new AppError("Refresh token is required", 400);
+    }
+
+    await authModel.logout(refreshToken);
+
+    return { message: "Logut success" };
+  },
+
   refresh: async (refreshToken: string) => {
     if (!refreshToken) {
       throw new AppError("Refresh token is required", 400);
