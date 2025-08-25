@@ -12,16 +12,16 @@ const Navbar = () => {
   const pathname = usePathname().split("/")[1] || "/";
 
   return (
-    <nav className="flex items-center justify-between w-full h-20 border-b border-gray-200 pb-4">
+    <nav className="flex h-20 w-full items-center justify-between border-b border-gray-200 pb-4">
       <Link href={"/"} className="flex items-center focus-visible:outline-none">
         <Image
           src={"/logo.png"}
           alt="Logo"
           width={36}
           height={36}
-          className="w-6 h-6 md:w-9 md:h-9"
+          className="h-6 w-6 md:h-9 md:w-9"
         />
-        <p className="hidden md:block text-md font-bold tracking-wider">
+        <p className="text-md hidden font-bold tracking-wider md:block">
           VENDORA
         </p>
       </Link>
@@ -30,7 +30,7 @@ const Navbar = () => {
         <div className="flex items-center gap-6">
           <Link
             href={"/"}
-            className={cn(pathname === "/" && "rounded-md p-2 bg-primary")}
+            className={cn(pathname === "/" && "bg-primary rounded-md p-2")}
           >
             <Home
               className={cn(
@@ -43,7 +43,7 @@ const Navbar = () => {
             href={"/notifications"}
             className={cn(
               "relative",
-              pathname === "/notifications" && "rounded-md p-2 bg-primary",
+              pathname === "/notifications" && "bg-primary rounded-md p-2",
             )}
           >
             <Bell
@@ -52,15 +52,15 @@ const Navbar = () => {
                 pathname === "/notifications" ? "text-white" : "text-gray-600",
               )}
             />
-            <div className="text-[10px] absolute -right-2 -top-1 bg-rose-500 text-white size-4 flex items-center justify-center rounded-full">
+            <div className="absolute -top-1 -right-2 flex size-4 items-center justify-center rounded-full bg-rose-500 text-[10px] text-white">
               5
             </div>
           </Link>
           <Link
             href={"/cart"}
             className={cn(
-              "relative ",
-              pathname === "/cart" && "rounded-md p-2 bg-primary",
+              "relative",
+              pathname === "/cart" && "bg-primary rounded-md p-2",
             )}
           >
             <ShoppingCart
@@ -69,12 +69,12 @@ const Navbar = () => {
                 pathname === "/cart" ? "text-white" : "text-gray-600",
               )}
             />
-            <div className="text-[10px] absolute -right-2 -top-1 bg-rose-500 text-white size-4 flex items-center justify-center rounded-full">
+            <div className="absolute -top-1 -right-2 flex size-4 items-center justify-center rounded-full bg-rose-500 text-[10px] text-white">
               5
             </div>
           </Link>
         </div>
-        <Link href={"/cart"} className={buttonVariants()}>
+        <Link href={"/sign-in"} className={buttonVariants()}>
           Sign in
         </Link>
       </div>
