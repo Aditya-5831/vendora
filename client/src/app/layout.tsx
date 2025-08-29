@@ -1,9 +1,11 @@
+import Footer from "@/components/shared/Footer";
+import Navbar from "@/components/shared/Navbar";
 import { cn } from "@/lib/utils";
+import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/shared/Navbar";
-import Footer from "@/components/shared/Footer";
+import { Toaster } from "sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,11 +24,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(inter.className, "antialiased")}>
-        <main className="mx-auto p-4 sm:max-w-xl lg:max-w-3xl xl:max-w-7xl">
-          <Navbar />
-          {children}
-          <Footer />
-        </main>
+        <ReactQueryProvider>
+          <main className="mx-auto p-4 sm:max-w-xl lg:max-w-3xl xl:max-w-7xl">
+            <Toaster richColors position="top-center" />
+            <Navbar />
+            {children}
+            <Footer />
+          </main>
+        </ReactQueryProvider>
       </body>
     </html>
   );

@@ -16,6 +16,17 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useMutation } from "@tanstack/react-query";
+import apiRequest, { setAccessToken } from "@/lib/apiRequest";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
+import { Loader2 } from "lucide-react";
+
+interface AuthErrorResponse {
+  error: {
+    message: string;
+  };
+}
 
 const SignUpForm = () => {
   const form = useForm<SignUpFormValues>({
@@ -27,8 +38,33 @@ const SignUpForm = () => {
     },
   });
 
-  const onSubmit = (values: SignUpFormValues) => {
-    console.log(values);
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (values: SignUpFormValues) => {
+      const response = (await apiRequest.post("/auth/sign-up", values)).data;
+      console.log(response);
+
+      if (response.success) {
+        setAccessToken(response.accessToken);
+        toast.success(response.message);
+      }
+    },
+
+    onError: (error: AxiosError) => {
+      if (error.response) {
+        const errorResponse = error.response.data as AuthErrorResponse;
+
+        if (errorResponse.error.message === "User already exists") {
+          toast.error("User already exists");
+        } else {
+          toast.error("Something went wrong");
+        }
+      }
+    },
+  });
+
+  const onSubmit = async (values: SignUpFormValues) => {
+    mutate(values);
+    form.reset();
   };
 
   return (
@@ -72,7 +108,13 @@ const SignUpForm = () => {
             )}
           />
 
-          <Button className="w-full">Sign up</Button>
+          <Button type="submit" disabled={isPending} className="w-full">
+            {isPending ? (
+              <Loader2 className="size-5 animate-spin" />
+            ) : (
+              "Sign up"
+            )}
+          </Button>
         </form>
       </Form>
     </div>

@@ -10,7 +10,12 @@ const port = process.env.PORT || 3001;
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
