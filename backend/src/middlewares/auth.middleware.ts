@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-interface AuthRequest extends Request {
+export interface AuthRequest extends Request {
   user?: { userId: string };
 }
 
@@ -15,7 +15,7 @@ const authorize = async (
   next: NextFunction
 ) => {
   try {
-    let token;
+    let token: string | undefined;
 
     if (
       req.headers.authorization &&
@@ -28,7 +28,10 @@ const authorize = async (
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as TokenPayload;
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_ACCESS_SECRET!
+    ) as TokenPayload;
 
     if (!decoded || !decoded.userId) {
       res.status(401).json({ message: "Unauthorized: Invalid token" });
@@ -38,7 +41,7 @@ const authorize = async (
 
     next();
   } catch (error: Error | any) {
-    res.status(401).json({ message: "Unauthorized", error: error.message });
+    res.status(401).json({ message: "Unauthoriz", error: error.message });
   }
 };
 

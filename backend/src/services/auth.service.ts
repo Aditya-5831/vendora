@@ -23,20 +23,19 @@ export const authService = {
       ...data,
       password: hashedPassword,
     });
-    const { password, ...safeUser } = newUser;
 
-    const accessToken = generateAccessToken(safeUser.id);
-    const refreshToken = generateRefreshToken(safeUser.id);
+    const accessToken = generateAccessToken(newUser.id);
+    const refreshToken = generateRefreshToken(newUser.id);
 
     await db.refreshToken.create({
       data: {
         token: refreshToken,
-        userId: safeUser.id,
+        userId: newUser.id,
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
       },
     });
 
-    return { user: safeUser, accessToken, refreshToken };
+    return { user: newUser, accessToken, refreshToken };
   },
 
   signIn: async (data: UserType) => {

@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth.routes";
+import userRoutes from "./routes/user.routes";
 import errorHandler from "./middlewares/error.middleware";
 import cookieParser from "cookie-parser";
 
@@ -19,6 +20,7 @@ app.use(
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/user", userRoutes);
 
 // Error handler middleware
 app.use(errorHandler);

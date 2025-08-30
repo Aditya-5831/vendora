@@ -1,11 +1,12 @@
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 import { cn } from "@/lib/utils";
+import AuthProvider from "@/providers/AuthProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import { Toaster } from "sonner";
+import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,12 +26,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn(inter.className, "antialiased")}>
         <ReactQueryProvider>
-          <main className="mx-auto p-4 sm:max-w-xl lg:max-w-3xl xl:max-w-7xl">
-            <Toaster richColors position="top-center" />
-            <Navbar />
-            {children}
-            <Footer />
-          </main>
+          <AuthProvider>
+            <main className="mx-auto p-4 sm:max-w-xl lg:max-w-3xl xl:max-w-7xl">
+              <Toaster richColors position="top-center" />
+              <Navbar />
+              {children}
+              <Footer />
+            </main>
+          </AuthProvider>
         </ReactQueryProvider>
       </body>
     </html>

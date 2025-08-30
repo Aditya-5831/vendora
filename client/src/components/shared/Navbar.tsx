@@ -1,15 +1,23 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { Bell, Home, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import SearchBar from "../home/SearchBar";
-import { Bell, Home, ShoppingCart } from "lucide-react";
-import { buttonVariants } from "../ui/button";
-import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import SearchBar from "../home/SearchBar";
+import { buttonVariants } from "../ui/button";
+import UserButton from "./UserButton";
 
 const Navbar = () => {
   const pathname = usePathname().split("/")[1] || "/";
+
+  const { isAuthenticated, isLoadingUser, user } = useAuthStore(
+    (state) => state,
+  );
+
+  console.log(user);
 
   return (
     <nav className="flex h-20 w-full items-center justify-between border-b border-gray-200 pb-4">
@@ -74,9 +82,15 @@ const Navbar = () => {
             </div>
           </Link>
         </div>
-        <Link href={"/sign-in"} className={buttonVariants()}>
-          Sign in
-        </Link>
+        {isLoadingUser ? (
+          <div className="size-9 animate-pulse rounded-full bg-gray-300" />
+        ) : isAuthenticated ? (
+          <UserButton />
+        ) : (
+          <Link href={"/sign-in"} className={buttonVariants()}>
+            Sign in
+          </Link>
+        )}
       </div>
     </nav>
   );
