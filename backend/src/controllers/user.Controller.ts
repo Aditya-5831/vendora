@@ -8,8 +8,6 @@ export const userController = {
     try {
       const userId = req.user?.userId;
 
-      console.log(userId);
-
       if (!userId) {
         throw new AppError("Unauthorized", 401);
       }
