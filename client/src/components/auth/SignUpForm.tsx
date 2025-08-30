@@ -21,6 +21,7 @@ import apiRequest, { setAccessToken } from "@/lib/apiRequest";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 interface AuthErrorResponse {
   error: {
@@ -38,14 +39,16 @@ const SignUpForm = () => {
     },
   });
 
+  const { setUser } = useAuthStore((state) => state);
+
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: SignUpFormValues) => {
       const response = (await apiRequest.post("/auth/sign-up", values)).data;
-      console.log(response);
 
       if (response.success) {
         setAccessToken(response.accessToken);
         toast.success(response.message);
+        setUser(response.user);
       }
     },
 

@@ -21,6 +21,7 @@ import apiRequest, { setAccessToken } from "@/lib/apiRequest";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 interface AuthErrorResponse {
   error: {
@@ -37,6 +38,8 @@ const SignInForm = () => {
     },
   });
 
+  const { setUser } = useAuthStore((state) => state);
+
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: SignInFormValues) => {
       const response = (await apiRequest.post("/auth/sign-in", values)).data;
@@ -44,6 +47,7 @@ const SignInForm = () => {
       if (response.success) {
         setAccessToken(response.accessToken);
         toast.success(response.message);
+        setUser(response.user);
       }
     },
 
