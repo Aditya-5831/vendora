@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import db from "../config/db";
-import { UserType } from "../lib/types";
+import { GoogleAuthType, UserType } from "../lib/types";
 import { AppError } from "../middlewares/error.middleware";
 import { authModel } from "../models/auth.model";
 import {
@@ -41,7 +41,7 @@ export const authService = {
   signIn: async (data: UserType) => {
     const user = await authModel.signIn(data.email);
 
-    if (!user) {
+    if (!user || !user.password) {
       throw new AppError("Invalid credentials", 401);
     }
 
@@ -97,5 +97,25 @@ export const authService = {
     const accessToken = generateAccessToken(payload.userId);
 
     return { accessToken };
+  },
+
+  googleAuth: async (profile: GoogleAuthType) => {
+    const user = await authModel.googleAuth(profile);
+    return { user };
+  },
+
+  issueTokensForUser: async (userId: string) => {
+    const accessToken = generateAccessToken(userId);
+    const refreshToken = generateRefreshToken(userId);
+
+    await db.refreshToken.create({
+      data: {
+        token: refreshToken,
+        userId: userId,
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+      },
+    });
+
+    return { accessToken, refreshToken };
   },
 };

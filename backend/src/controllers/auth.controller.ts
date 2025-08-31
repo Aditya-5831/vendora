@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { signInSchema, signUpSchema } from "../lib/auth.validation";
 import { AppError } from "../middlewares/error.middleware";
 import { authService } from "../services/auth.service";
+import passport from "passport";
 
 export const authController = {
   signUp: async (req: Request, res: Response, next: NextFunction) => {
@@ -111,5 +112,42 @@ export const authController = {
     } catch (error) {
       next(error);
     }
+  },
+
+  googleStart: passport.authenticate("google", {
+    scope: ["profile", "email"],
+    session: false,
+  }),
+
+  googleCallback: async (req: Request, res: Response, next: NextFunction) => {
+    passport.authenticate(
+      "google",
+      { session: false },
+      async (err, user: any) => {
+        try {
+          if (err) {
+            return next(err);
+          }
+
+          if (!user) {
+            return res.redirect("http://localhost:3000/sign-in");
+          }
+
+          const { accessToken, refreshToken } =
+            await authService.issueTokensForUser(user.id);
+
+          res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            sameSite: "strict",
+            secure: process.env.NODE_ENV === "production",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+          });
+
+          return res.redirect("http://localhost:3000");
+        } catch (error) {
+          next(error);
+        }
+      }
+    )(req, res, next);
   },
 };
