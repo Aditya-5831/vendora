@@ -1,8 +1,6 @@
+import GoogleButton from "@/components/auth/GoogleButton";
 import SignInForm from "@/components/auth/SignInForm";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import React from "react";
-import { FcGoogle } from "react-icons/fc";
 
 const SignInPage = () => {
   return (
@@ -11,10 +9,7 @@ const SignInPage = () => {
         <h1 className="text-center text-2xl font-bold text-pretty">
           Welcome Back to Vendora
         </h1>
-        <Button variant={"outline"} className="w-full" size={"lg"}>
-          <FcGoogle className="size-5" />
-          Continue with Google
-        </Button>
+        <GoogleButton />
 
         <div className="before: flex items-center before:h-px before:w-36 before:max-w-40 before:bg-gray-200 before:content-[''] after:h-px after:w-36 after:max-w-44 after:flex-grow after:bg-gray-200 after:content-['']">
           <span className="px-3 text-gray-600">or</span>

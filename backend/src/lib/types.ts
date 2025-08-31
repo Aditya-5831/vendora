@@ -4,3 +4,11 @@ export type UserType = {
   email: string;
   password: string;
 };
+
+export type GoogleAuthType = {
+  profileEmail: string;
+  displayName: string;
+  providerId: string;
+  accessToken: string;
+  refreshToken: string;
+};

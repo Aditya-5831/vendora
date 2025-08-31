@@ -4,6 +4,9 @@ import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
 import errorHandler from "./middlewares/error.middleware";
 import cookieParser from "cookie-parser";
+import passport from "passport";
+
+import "../src/config/passport.config";
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -17,6 +20,7 @@ app.use(
     credentials: true,
   })
 );
+app.use(passport.initialize());
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
