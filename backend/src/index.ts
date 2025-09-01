@@ -1,10 +1,11 @@
-import express from "express";
-import cors from "cors";
-import authRoutes from "./routes/auth.routes";
-import userRoutes from "./routes/user.routes";
-import errorHandler from "./middlewares/error.middleware";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+import express from "express";
 import passport from "passport";
+import errorHandler from "./middlewares/error.middleware";
+import authRoutes from "./routes/auth.routes";
+import productRoutes from "./routes/product.routes";
+import userRoutes from "./routes/user.routes";
 
 import "../src/config/passport.config";
 
@@ -25,6 +26,7 @@ app.use(passport.initialize());
 // Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/product", productRoutes);
 
 // Error handler middleware
 app.use(errorHandler);

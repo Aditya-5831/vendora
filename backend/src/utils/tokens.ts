@@ -6,12 +6,12 @@ const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET!;
 type AccessPayload = { userId: string; email?: string };
 type RefreshPayload = { userId: string };
 
-export const generateAccessToken = (userId: string) => {
-  return jwt.sign({ userId }, JWT_ACCESS_SECRET, { expiresIn: "15m" });
+export const generateAccessToken = (userId: string, role: string) => {
+  return jwt.sign({ userId, role }, JWT_ACCESS_SECRET, { expiresIn: "15m" });
 };
 
-export const generateRefreshToken = (userId: string) => {
-  return jwt.sign({ userId }, JWT_REFRESH_SECRET, { expiresIn: "7d" });
+export const generateRefreshToken = (userId: string, role: string) => {
+  return jwt.sign({ userId, role }, JWT_REFRESH_SECRET, { expiresIn: "7d" });
 };
 
 export const verifyAccessToken = (token: string) => {

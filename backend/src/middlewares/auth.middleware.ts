@@ -1,19 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-export interface AuthRequest extends Request {
-  user?: { userId: string };
-}
-
 interface TokenPayload extends JwtPayload {
   userId: string;
+  role: string;
 }
 
-const authorize = async (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-) => {
+const authorize = async (req: Request, res: Response, next: NextFunction) => {
   try {
     let token: string | undefined;
 
@@ -37,11 +30,11 @@ const authorize = async (
       res.status(401).json({ message: "Unauthorized: Invalid token" });
     }
 
-    req.user = { userId: decoded.userId };
+    req.user = { userId: decoded.userId, role: decoded.role };
 
     next();
   } catch (error: Error | any) {
-    res.status(401).json({ message: "Unauthoriz", error: error.message });
+    res.status(401).json({ message: "Unauthorized", error: error.message });
   }
 };
 

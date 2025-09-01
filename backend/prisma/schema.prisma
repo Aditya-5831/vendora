@@ -13,11 +13,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 model User {
   id            String         @id @default(cuid())
   email         String         @unique
   name          String?
   password      String?
+  role          Role           @default(USER)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   refreshTokens RefreshToken[]
@@ -52,4 +58,19 @@ model RefreshToken {
   userId String @unique
 
   @@map("refresh_tokens")
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  name          String
+  images        String[]
+  description   String
+  price         Decimal  @db.Decimal(10, 2)
+  colors        String[]
+  sizes         String[]
+  stockQuantity Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("products")
 }

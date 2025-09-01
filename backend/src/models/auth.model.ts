@@ -11,6 +11,7 @@ export const authModel = {
         email: true,
         createdAt: true,
         updatedAt: true,
+        role: true,
       },
     });
     return user;

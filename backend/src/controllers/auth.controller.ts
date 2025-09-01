@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
+import passport from "passport";
 import { signInSchema, signUpSchema } from "../lib/auth.validation";
 import { AppError } from "../middlewares/error.middleware";
 import { authService } from "../services/auth.service";
-import passport from "passport";
 
 export const authController = {
   signUp: async (req: Request, res: Response, next: NextFunction) => {
@@ -134,7 +134,7 @@ export const authController = {
           }
 
           const { accessToken, refreshToken } =
-            await authService.issueTokensForUser(user.id);
+            await authService.issueTokensForUser(user.id, user.role);
 
           res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
