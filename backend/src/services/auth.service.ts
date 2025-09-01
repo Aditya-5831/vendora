@@ -24,8 +24,8 @@ export const authService = {
       password: hashedPassword,
     });
 
-    const accessToken = generateAccessToken(newUser.id);
-    const refreshToken = generateRefreshToken(newUser.id);
+    const accessToken = generateAccessToken(newUser.id, newUser.role);
+    const refreshToken = generateRefreshToken(newUser.id, newUser.role);
 
     await db.refreshToken.create({
       data: {
@@ -53,8 +53,8 @@ export const authService = {
 
     const { password, ...safeUser } = user;
 
-    const accessToken = generateAccessToken(user.id);
-    const refreshToken = generateRefreshToken(user.id);
+    const accessToken = generateAccessToken(user.id, user.role);
+    const refreshToken = generateRefreshToken(user.id, user.role);
 
     await db.refreshToken.create({
       data: {
@@ -94,7 +94,7 @@ export const authService = {
 
     const payload = verifyRefreshToken(refreshToken);
 
-    const accessToken = generateAccessToken(payload.userId);
+    const accessToken = generateAccessToken(payload.userId, payload.role);
 
     return { accessToken };
   },
@@ -104,9 +104,9 @@ export const authService = {
     return { user };
   },
 
-  issueTokensForUser: async (userId: string) => {
-    const accessToken = generateAccessToken(userId);
-    const refreshToken = generateRefreshToken(userId);
+  issueTokensForUser: async (userId: string, role: string) => {
+    const accessToken = generateAccessToken(userId, role);
+    const refreshToken = generateRefreshToken(userId, role);
 
     await db.refreshToken.create({
       data: {

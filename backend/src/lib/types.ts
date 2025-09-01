@@ -3,6 +3,7 @@ export type UserType = {
   name?: string;
   email: string;
   password: string;
+  role?: "USER" | "ADMIN";
 };
 
 export type GoogleAuthType = {
@@ -11,4 +12,14 @@ export type GoogleAuthType = {
   providerId: string;
   accessToken: string;
   refreshToken: string;
+};
+
+export type ProductType = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  colors: string[];
+  sizes: string[];
+  stockQuantity: number;
 };
