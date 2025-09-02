@@ -7,6 +7,7 @@ export const productModel = {
       data: {
         name: data.name,
         description: data.description,
+        images: data.images,
         price: data.price,
         colors: data.colors,
         sizes: data.sizes,
