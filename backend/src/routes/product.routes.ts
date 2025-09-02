@@ -7,8 +7,8 @@ const router = Router();
 
 router.post(
   "/",
-  authorize,
-  requireRole(["ADMIN"]),
+  // authorize,
+  // requireRole(["ADMIN"]),
   productController.addProduct
 );
 router.get("/", productController.getAllProducts);

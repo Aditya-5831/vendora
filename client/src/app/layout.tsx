@@ -24,7 +24,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "antialiased")}>
+      <body
+        suppressHydrationWarning
+        className={cn(inter.className, "antialiased")}
+      >
         <ReactQueryProvider>
           <AuthProvider>
             <main className="mx-auto p-4 sm:max-w-xl lg:max-w-3xl xl:max-w-7xl">
