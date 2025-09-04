@@ -2,56 +2,63 @@
 
 import { cn } from "@/lib/utils";
 import {
+  Book,
   Briefcase,
+  Dumbbell,
   Footprints,
   Glasses,
-  Hand,
+  Laptop,
   Shirt,
   ShoppingBasket,
-  Venus,
+  Watch,
 } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const categories = [
   {
     name: "All",
-    icon: <ShoppingBasket className="h-4 w-4" />,
+    icon: <ShoppingBasket className="size-7" />,
     slug: "all",
   },
   {
-    name: "T-shirts",
-    icon: <Shirt className="h-4 w-4" />,
-    slug: "t-shirts",
+    name: "Clothing",
+    icon: <Shirt className="size-7" />,
+    slug: "clothing",
   },
   {
     name: "Shoes",
-    icon: <Footprints className="h-4 w-4" />,
+    icon: <Footprints className="size-7" />,
     slug: "shoes",
   },
   {
     name: "Accessories",
-    icon: <Glasses className="h-4 w-4" />,
+    icon: <Glasses className="size-7" />,
     slug: "accessories",
   },
   {
     name: "Bags",
-    icon: <Briefcase className="h-4 w-4" />,
+    icon: <Briefcase className="size-7" />,
     slug: "bags",
   },
   {
-    name: "Dresses",
-    icon: <Venus className="h-4 w-4" />,
-    slug: "dresses",
+    name: "Watches",
+    icon: <Watch className="size-7" />,
+    slug: "watches",
   },
   {
-    name: "Jackets",
-    icon: <Shirt className="h-4 w-4" />,
-    slug: "jackets",
+    name: "Electronics",
+    icon: <Laptop className="size-7" />,
+    slug: "electronics",
   },
   {
-    name: "Gloves",
-    icon: <Hand className="h-4 w-4" />,
-    slug: "gloves",
+    name: "Sports",
+    icon: <Dumbbell className="size-7" />,
+    slug: "sports",
+  },
+  {
+    name: "Books",
+    icon: <Book className="size-7" />,
+    slug: "books",
   },
 ];
 
@@ -69,19 +76,19 @@ const Categories = () => {
   };
 
   return (
-    <div className="mb-4 grid w-full grid-cols-2 gap-2 rounded-lg bg-gray-100 p-2 text-sm sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
+    <div className="mb-4 grid w-full grid-cols-2 gap-5 rounded-lg p-2 text-sm sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-9">
       {categories.map((category) => (
         <div
           key={category.name}
           className={cn(
-            "flex cursor-pointer items-center justify-center gap-2 rounded-md px-2 py-1",
-            selectedCategory === category.slug ? "bg-white" : "text-gray-500",
+            "flex cursor-pointer items-center justify-center rounded-md border p-2",
+            selectedCategory === category.slug
+              ? "bg-neutral-900 text-white"
+              : "text-gray-500",
           )}
           onClick={handleChange(category.slug)}
         >
-          <div className="flex items-center gap-2 py-1">
-            {category.icon} {category.name}
-          </div>
+          <div>{category.icon}</div>
         </div>
       ))}
     </div>
